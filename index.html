@@ -541,7 +541,143 @@ function compressImage() {
   reader.readAsDataURL(file);
 }
 </script>
+  <!-- Smarttools AI Background Remover -->
+<section id="bg-remover" style="max-width:700px;margin:30px auto;padding:24px;background:#111827;border:1px solid #374151;border-radius:18px;color:white;font-family:Arial,sans-serif;">
 
+  <h2>✂️ AI Background Remover</h2>
+
+  <p>Remove the background from your image with AI.</p>
+
+  <input
+    type="file"
+    id="bgInput"
+    accept="image/*"
+    style="display:block;width:100%;margin:20px 0;color:white;"
+  >
+
+  <img
+    id="bgPreview"
+    alt="Image preview"
+    style="display:none;width:100%;max-height:350px;object-fit:contain;margin:15px 0;border-radius:10px;"
+  >
+
+  <button
+    id="bgRemoveBtn"
+    type="button"
+    style="width:100%;padding:14px;background:linear-gradient(90deg,#6366f1,#a855f7);border:0;border-radius:10px;color:white;font-size:16px;font-weight:bold;"
+  >
+    ✨ Remove Background
+  </button>
+
+  <p id="bgStatus" role="status" style="margin-top:18px;color:#c4b5fd;">
+    Choose an image to get started.
+  </p>
+
+  <img
+    id="bgResult"
+    alt="Background removed image"
+    style="display:none;width:100%;max-height:400px;object-fit:contain;margin-top:20px;border-radius:10px;background:repeating-conic-gradient(#ddd 0% 25%,#fff 0% 50%) 50%/20px 20px;"
+  >
+
+  <a
+    id="bgDownload"
+    download="smarttools-background-removed.png"
+    style="display:none;margin-top:18px;padding:13px;text-align:center;background:#16a34a;border-radius:10px;color:white;text-decoration:none;font-weight:bold;"
+  >
+    📥 Download PNG
+  </a>
+
+  <p style="font-size:12px;color:#9ca3af;margin-top:18px;">
+    AI processing runs in your browser. The AI model must download on first use.
+  </p>
+
+</section>
+
+<script type="module">
+import imglyRemoveBackground from
+  "https://esm.sh/@imgly/background-removal@1.7.0";
+
+const bgInput = document.getElementById("bgInput");
+const bgPreview = document.getElementById("bgPreview");
+const bgResult = document.getElementById("bgResult");
+const bgButton = document.getElementById("bgRemoveBtn");
+const bgStatus = document.getElementById("bgStatus");
+const bgDownload = document.getElementById("bgDownload");
+
+let selectedImage = null;
+let previewURL = null;
+let resultURL = null;
+
+bgInput.addEventListener("change", function () {
+  const file = this.files && this.files[0];
+
+  if (!file) return;
+
+  if (!file.type.startsWith("image/")) {
+    bgStatus.textContent = "Please choose an image file.";
+    return;
+  }
+
+  selectedImage = file;
+
+  if (previewURL) URL.revokeObjectURL(previewURL);
+  if (resultURL) URL.revokeObjectURL(resultURL);
+
+  previewURL = URL.createObjectURL(file);
+  bgPreview.src = previewURL;
+  bgPreview.style.display = "block";
+
+  bgResult.style.display = "none";
+  bgDownload.style.display = "none";
+
+  bgStatus.textContent = "Image ready! Tap Remove Background.";
+});
+
+bgButton.addEventListener("click", async function () {
+  if (!selectedImage) {
+    bgStatus.textContent = "Please choose an image first.";
+    return;
+  }
+
+  bgButton.disabled = true;
+  bgButton.style.opacity = "0.6";
+  bgStatus.textContent =
+    "Loading AI model... Please wait. The first run may take several minutes.";
+
+  try {
+    const resultBlob = await imglyRemoveBackground(selectedImage, {
+      model: "isnet_quint8",
+      output: {
+        format: "image/png",
+        type: "foreground"
+      }
+    });
+
+    if (resultURL) URL.revokeObjectURL(resultURL);
+
+    resultURL = URL.createObjectURL(resultBlob);
+
+    bgResult.src = resultURL;
+    bgResult.style.display = "block";
+
+    bgDownload.href = resultURL;
+    bgDownload.style.display = "block";
+
+    bgStatus.textContent =
+      "Success! Your image background has been removed.";
+
+  } catch (error) {
+    console.error("Background removal error:", error);
+
+    bgStatus.textContent =
+      "Could not remove background. Check your internet connection and try again.";
+
+  } finally {
+    bgButton.disabled = false;
+    bgButton.style.opacity = "1";
+  }
+});
+</script>
 </body>
   <!-- AI Caption Generator -->
 <section style="max-width:700px;margin:30px auto;padding:24px;background:#111827;border:1px solid #374151;border-radius:18px;color:white;font-family:Arial,sans-serif;">
