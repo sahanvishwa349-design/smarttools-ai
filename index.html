@@ -617,7 +617,8 @@ bgInput.addEventListener("change", function () {
     bgStatus.textContent = "Please choose an image file.";
     return;
   }
-
+  
+bgStatus.textContent = "Button is working!";
   selectedImage = file;
 
   if (previewURL) URL.revokeObjectURL(previewURL);
