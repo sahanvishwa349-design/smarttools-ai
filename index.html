@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smarttools AI - Free Online Tools</title>
+<meta name="description" content="Smarttools AI offers free online tools to compress images and count words quickly and easily.">
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#0b1020;color:#fff}
+header{text-align:center;padding:35px 15px;background:linear-gradient(135deg,#101b3f,#4934a8)}
+header h1{font-size:34px;margin:0 0 12px}
+header p{color:#e0e7ff;margin:0}
+main{max-width:850px;margin:30px auto;padding:15px}
+.card{background:#151d32;border:1px solid #293653;border-radius:16px;padding:22px;margin:20px 0}
+h2{margin-top:0;color:#a5b4fc}
+textarea,input{width:100%;padding:13px;border-radius:9px;border:1px solid #53617b;background:#0b1020;color:white;font-size:16px;margin:10px 0}
+button{background:#7664f5;color:white;border:0;padding:12px 17px;border-radius:9px;font-size:15px;font-weight:bold;margin:5px 0;cursor:pointer}
+button:hover{background:#5946dc}
+.result{color:#86efac;overflow-wrap:anywhere}
+footer{text-align:center;padding:25px;color:#aab4cc}
+</style>
+</head>
+<body>
+<header>
+<h1>⚡ Smarttools AI</h1>
+<p>Free Online Tools. Simple, Fast & Useful.</p>
+</header>
+<main>
+<section class="card">
+<h2>📝 Word Counter</h2>
+<p>Count words and characters instantly.</p>
+<textarea id="words" rows="5" placeholder="Type or paste your text here..."></textarea>
+<p class="result" id="wordResult">Words: 0 | Characters: 0</p>
+<button onclick="clearWords()">Clear Text</button>
+</section>
+
+<section class="card">
+<h2>🖼️ Image Compressor</h2>
+<p>Compress an image directly in your browser.</p>
+<input type="file" id="imageFile" accept="image/*">
+<label for="quality">Image quality: <span id="qualityValue">70%</span></label>
+<input type="range" id="quality" min="20" max="95" value="70">
+<button onclick="compressImage()">Compress Image</button>
+<p id="imageResult" class="result"></p>
+<a id="downloadLink" style="display:none;color:#a5b4fc" download="compressed-image.jpg">Download compressed image</a>
+</section>
+</main>
+<footer>© 2026 Smarttools AI · Free Online Tools</footer>
+<script>
+const words=document.getElementById('words');
+words.addEventListener('input',()=>{
+const text=words.value.trim();
+const count=text?text.split(/\s+/).length:0;
+document.getElementById('wordResult').textContent=
+'Words: '+count+' | Characters: '+words.value.length;
+});
+function clearWords(){
+words.value='';
+words.dispatchEvent(new Event('input'));
+}
+const quality=document.getElementById('quality');
+quality.addEventListener('input',()=>{
+document.getElementById('qualityValue').textContent=quality.value+'%';
+});
+function compressImage(){
+const file=document.getElementById('imageFile').files[0];
+const result=document.getElementById('imageResult');
+const link=document.getElementById('downloadLink');
+if(!file){result.textContent='Please choose an image first.';return;}
+if(!file.type.startsWith('image/')){result.textContent='Please select a valid image.';return;}
+result.textContent='Compressing image...';
+const reader=new FileReader();
+reader.onload=e=>{
+const img=new Image();
+img.onload=()=>{
+const canvas=document.createElement('canvas');
+const max=2000;
+const scale=Math.min(1,max/Math.max(img.width,img.height));
+canvas.width=Math.round(img.width*scale);
+canvas.height=Math.round(img.height*scale);
+const ctx=canvas.getContext('2d');
+ctx.drawImage(img,0,0,canvas.width,canvas.height);
+canvas.toBlob(blob=>{
+if(!blob){result.textContent='Could not compress this image.';return;}
+link.href=URL.createObjectURL(blob);
+link.style.display='inline-block';
+result.textContent='Original: '+(file.size/1024).toFixed(1)+' KB | Compressed: '+(blob.size/1024).toFixed(1)+' KB';
+},'image/jpeg',Number(quality.value)/100);
+};
+img.onerror=()=>result.textContent='Could not read this image.';
+img.src=e.target.result;
+};
+reader.onerror=()=>result.textContent='Could not load this image.';
+reader.readAsDataURL(file);
+}
+</script>
+</body>
+</html>
