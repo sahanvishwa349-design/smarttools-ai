@@ -543,4 +543,103 @@ function compressImage() {
 </script>
 
 </body>
+  <!-- AI Caption Generator -->
+<section style="max-width:700px;margin:30px auto;padding:24px;background:#111827;border:1px solid #374151;border-radius:18px;color:white;font-family:Arial,sans-serif;">
+  <h2 style="margin-top:0;">✨ AI Caption & Hashtag Generator</h2>
+  <p>Create captions and hashtags for your social media posts.</p>
+
+  <label for="captionTopic">What is your post about?</label>
+
+  <textarea id="captionTopic" placeholder="Example: Delicious chocolate cake"
+    style="width:100%;box-sizing:border-box;min-height:100px;margin-top:10px;padding:12px;border-radius:10px;border:1px solid #4b5563;background:#1f2937;color:white;font-size:16px;"></textarea>
+
+  <label for="captionPlatform" style="display:block;margin-top:15px;">Choose platform</label>
+
+  <select id="captionPlatform"
+    style="width:100%;padding:12px;margin-top:8px;border-radius:10px;background:#1f2937;color:white;font-size:16px;">
+    <option>Facebook</option>
+    <option>Instagram</option>
+    <option>TikTok</option>
+  </select>
+
+  <button onclick="generateCaption()"
+    style="width:100%;padding:14px;margin-top:18px;border:0;border-radius:10px;background:linear-gradient(90deg,#6366f1,#a855f7);color:white;font-size:16px;font-weight:bold;">
+    Generate Caption ✨
+  </button>
+
+  <div id="captionOutput"
+    style="display:none;white-space:pre-wrap;margin-top:18px;padding:15px;background:#1f2937;border-radius:10px;line-height:1.7;"></div>
+
+  <button id="copyCaptionBtn" onclick="copyCaption()"
+    style="display:none;width:100%;padding:12px;margin-top:10px;border:1px solid #818cf8;border-radius:10px;background:transparent;color:white;font-size:15px;">
+    📋 Copy Caption
+  </button>
+
+  <p style="font-size:12px;color:#9ca3af;margin-bottom:0;">
+    Free caption helper. This version uses templates and does not connect to a live AI service.
+  </p>
+</section>
+
+<script>
+function generateCaption() {
+  const topic = document.getElementById("captionTopic").value.trim();
+  const platform = document.getElementById("captionPlatform").value;
+  const output = document.getElementById("captionOutput");
+  const copyButton = document.getElementById("copyCaptionBtn");
+
+  if (!topic) {
+    alert("Please enter what your post is about!");
+    return;
+  }
+
+  let hashtags = "#Trending #Explore #Creative";
+
+  if (platform === "Facebook") {
+    hashtags = "#Facebook #Trending #Explore";
+  } else if (platform === "Instagram") {
+    hashtags = "#Instagram #InstaDaily #Explore";
+  } else if (platform === "TikTok") {
+    hashtags = "#TikTok #ForYou #Trending";
+  }
+
+  output.textContent =
+    "✨ " + topic + " ✨\n\n" +
+    "Discover something amazing! ❤️ What do you think about this? " +
+    "Share your thoughts in the comments!\n\n" +
+    hashtags;
+
+  output.style.display = "block";
+  copyButton.style.display = "block";
+}
+
+function copyCaption() {
+  const text = document.getElementById("captionOutput").innerText;
+
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(function() {
+      alert("Caption copied!");
+    }).catch(function() {
+      fallbackCopy(text);
+    });
+  } else {
+    fallbackCopy(text);
+  }
+}
+
+function fallbackCopy(text) {
+  const field = document.createElement("textarea");
+  field.value = text;
+  document.body.appendChild(field);
+  field.select();
+
+  try {
+    document.execCommand("copy");
+    alert("Caption copied!");
+  } catch (error) {
+    alert("Please select and copy the caption manually.");
+  }
+
+  field.remove();
+}
+</script>
 </html>
