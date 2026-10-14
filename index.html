@@ -3,97 +3,544 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Smarttools AI provides free online tools to count words and compress images quickly and easily.">
+<meta name="theme-color" content="#080b18">
 <title>Smarttools AI - Free Online Tools</title>
-<meta name="description" content="Smarttools AI offers free online tools to compress images and count words quickly and easily.">
+
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#0b1020;color:#fff}
-header{text-align:center;padding:35px 15px;background:linear-gradient(135deg,#101b3f,#4934a8)}
-header h1{font-size:34px;margin:0 0 12px}
-header p{color:#e0e7ff;margin:0}
-main{max-width:850px;margin:30px auto;padding:15px}
-.card{background:#151d32;border:1px solid #293653;border-radius:16px;padding:22px;margin:20px 0}
-h2{margin-top:0;color:#a5b4fc}
-textarea,input{width:100%;padding:13px;border-radius:9px;border:1px solid #53617b;background:#0b1020;color:white;font-size:16px;margin:10px 0}
-button{background:#7664f5;color:white;border:0;padding:12px 17px;border-radius:9px;font-size:15px;font-weight:bold;margin:5px 0;cursor:pointer}
-button:hover{background:#5946dc}
-.result{color:#86efac;overflow-wrap:anywhere}
-footer{text-align:center;padding:25px;color:#aab4cc}
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #080b18;
+  --card: #11182b;
+  --border: #273452;
+  --purple: #8067ff;
+  --blue: #36baff;
+  --text: #f7f8ff;
+  --muted: #a7b2cc;
+  --green: #60f5b0;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+header {
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  padding: 55px 18px 45px;
+  background:
+    radial-gradient(ellipse at top, #34236f 0%, transparent 65%),
+    linear-gradient(135deg, #101a37, #101024);
+  border-bottom: 1px solid #29345a;
+}
+
+.logo {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  color: var(--blue);
+  margin-bottom: 12px;
+}
+
+header h1 {
+  font-size: clamp(34px, 8vw, 52px);
+  line-height: 1.15;
+  margin: 0 0 15px;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+header h1 span {
+  background: linear-gradient(90deg, #8f7bff, #45d5ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+header p {
+  max-width: 500px;
+  margin: auto;
+  color: #c0c9e3;
+  font-size: 16px;
+}
+
+.badge {
+  display: inline-block;
+  margin-top: 24px;
+  padding: 7px 14px;
+  border: 1px solid #41406f;
+  background: #1b1c3b;
+  border-radius: 30px;
+  color: #d9d2ff;
+  font-size: 12px;
+}
+
+main {
+  max-width: 850px;
+  padding: 28px 16px;
+  margin: auto;
+}
+
+.section-heading {
+  text-align: center;
+  margin: 10px 0 25px;
+}
+
+.section-heading h2 {
+  margin: 0 0 6px;
+  font-size: 25px;
+}
+
+.section-heading p {
+  color: var(--muted);
+  margin: 0;
+  font-size: 14px;
+}
+
+.card {
+  background: linear-gradient(145deg, #141d34, #0e1425);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 25px;
+  margin: 20px 0;
+  box-shadow: 0 12px 35px #00000020;
+}
+
+.card-top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 8px;
+}
+
+.icon {
+  width: 52px;
+  height: 52px;
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  border-radius: 15px;
+  background: linear-gradient(135deg, #342b70, #183b64);
+  border: 1px solid #414b7b;
+}
+
+.card h2 {
+  font-size: 21px;
+  margin: 0;
+}
+
+.card-top p {
+  margin: 3px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+textarea,
+input[type="file"] {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid #344361;
+  background: #090f20;
+  color: white;
+  font-size: 15px;
+  margin: 13px 0;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 135px;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+}
+
+textarea:focus,
+input:focus {
+  outline: 2px solid #7868e9;
+  outline-offset: 2px;
+}
+
+textarea::placeholder {
+  color: #7d8aa7;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 15px 0;
+}
+
+.stat {
+  background: #0b1224;
+  border: 1px solid #293652;
+  border-radius: 12px;
+  padding: 14px;
+  text-align: center;
+}
+
+.stat strong {
+  display: block;
+  font-size: 25px;
+  color: #a99aff;
+}
+
+.stat span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+button {
+  border: 0;
+  border-radius: 11px;
+  padding: 13px 19px;
+  background: linear-gradient(100deg, #7561ed, #4c8bff);
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+button:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+button.secondary {
+  background: #222c45;
+  border: 1px solid #3a4968;
+  margin-left: 5px;
+}
+
+label {
+  font-size: 14px;
+  color: #c8d1e8;
+}
+
+input[type="range"] {
+  width: 100%;
+  accent-color: #8c78ff;
+  margin: 15px 0;
+}
+
+.quality-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.result {
+  color: var(--green);
+  font-size: 14px;
+  overflow-wrap: anywhere;
+  margin-top: 16px;
+}
+
+#downloadLink {
+  display: none;
+  margin-top: 12px;
+  padding: 11px 15px;
+  border-radius: 10px;
+  color: white;
+  background: #183d36;
+  border: 1px solid #286e58;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+#downloadLink:hover {
+  background: #205347;
+}
+
+.note {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 14px;
+}
+
+footer {
+  text-align: center;
+  padding: 30px 15px;
+  border-top: 1px solid #202b42;
+  color: #8794b0;
+  font-size: 13px;
+}
+
+footer strong {
+  color: #b3a6ff;
+}
+
+@media (max-width: 480px) {
+  header {
+    padding: 42px 17px 35px;
+  }
+
+  .card {
+    padding: 19px;
+    border-radius: 16px;
+  }
+
+  .card h2 {
+    font-size: 19px;
+  }
+
+  .icon {
+    width: 46px;
+    height: 46px;
+    font-size: 23px;
+  }
+
+  .stats {
+    gap: 8px;
+  }
+
+  .stat strong {
+    font-size: 22px;
+  }
+
+  button {
+    padding: 12px 15px;
+  }
+}
 </style>
 </head>
-<body>
-<header>
-<h1>⚡ Smarttools AI</h1>
-<p>Free Online Tools. Simple, Fast & Useful.</p>
-</header>
-<main>
-<section class="card">
-<h2>📝 Word Counter</h2>
-<p>Count words and characters instantly.</p>
-<textarea id="words" rows="5" placeholder="Type or paste your text here..."></textarea>
-<p class="result" id="wordResult">Words: 0 | Characters: 0</p>
-<button onclick="clearWords()">Clear Text</button>
-</section>
 
-<section class="card">
-<h2>🖼️ Image Compressor</h2>
-<p>Compress an image directly in your browser.</p>
-<input type="file" id="imageFile" accept="image/*">
-<label for="quality">Image quality: <span id="qualityValue">70%</span></label>
-<input type="range" id="quality" min="20" max="95" value="70">
-<button onclick="compressImage()">Compress Image</button>
-<p id="imageResult" class="result"></p>
-<a id="downloadLink" style="display:none;color:#a5b4fc" download="compressed-image.jpg">Download compressed image</a>
-</section>
+<body>
+
+<header>
+  <div class="logo">⚡ SMARTTOOLS AI</div>
+  <h1>Simple Tools.<br><span>Smarter Results.</span></h1>
+  <p>Useful free online tools to make your everyday tasks faster and easier.</p>
+  <div class="badge">✦ Free tools · Fast · Easy to use</div>
+</header>
+
+<main>
+
+  <div class="section-heading">
+    <h2>Explore Our Tools</h2>
+    <p>Choose a tool and get things done in seconds.</p>
+  </div>
+
+  <section class="card">
+    <div class="card-top">
+      <div class="icon">📝</div>
+      <div>
+        <h2>Word Counter</h2>
+        <p>Count words and characters instantly.</p>
+      </div>
+    </div>
+
+    <textarea id="words" rows="5" placeholder="Type or paste your text here..."></textarea>
+
+    <div class="stats">
+      <div class="stat">
+        <strong id="wordCount">0</strong>
+        <span>Words</span>
+      </div>
+      <div class="stat">
+        <strong id="charCount">0</strong>
+        <span>Characters</span>
+      </div>
+    </div>
+
+    <button type="button" onclick="clearWords()">Clear Text</button>
+    <button type="button" class="secondary" onclick="copyText()">Copy Text</button>
+    <p class="result" id="copyResult" aria-live="polite"></p>
+  </section>
+
+  <section class="card">
+    <div class="card-top">
+      <div class="icon">🖼️</div>
+      <div>
+        <h2>Image Compressor</h2>
+        <p>Reduce image file size directly in your browser.</p>
+      </div>
+    </div>
+
+    <label for="imageFile">Choose an image</label>
+    <input type="file" id="imageFile" accept="image/*">
+
+    <div class="quality-row">
+      <label for="quality">Image quality</label>
+      <label><span id="qualityValue">70</span>%</label>
+    </div>
+
+    <input type="range" id="quality" min="20" max="95" value="70">
+
+    <button type="button" onclick="compressImage()">Compress Image</button>
+
+    <p id="imageResult" class="result" aria-live="polite"></p>
+    <a id="downloadLink" download="compressed-image.jpg">⬇ Download Compressed Image</a>
+
+    <p class="note">Your image is processed in your browser and is not uploaded to our server. Compression results depend on the original image and selected quality.</p>
+  </section>
+
 </main>
-<footer>© 2026 Smarttools AI · Free Online Tools</footer>
+
+<footer>
+  <strong>⚡ Smarttools AI</strong><br>
+  Free Online Tools · Simple, Fast & Useful<br><br>
+  © 2026 Smarttools AI. All rights reserved.
+</footer>
+
 <script>
-const words=document.getElementById('words');
-words.addEventListener('input',()=>{
-const text=words.value.trim();
-const count=text?text.split(/\s+/).length:0;
-document.getElementById('wordResult').textContent=
-'Words: '+count+' | Characters: '+words.value.length;
-});
-function clearWords(){
-words.value='';
-words.dispatchEvent(new Event('input'));
+const words = document.getElementById('words');
+
+function updateWordCount() {
+  const text = words.value;
+  const trimmed = text.trim();
+
+  const count = trimmed ? trimmed.split(/\s+/).length : 0;
+
+  document.getElementById('wordCount').textContent = count;
+  document.getElementById('charCount').textContent = text.length;
 }
-const quality=document.getElementById('quality');
-quality.addEventListener('input',()=>{
-document.getElementById('qualityValue').textContent=quality.value+'%';
+
+words.addEventListener('input', updateWordCount);
+
+function clearWords() {
+  words.value = '';
+  updateWordCount();
+  document.getElementById('copyResult').textContent = '';
+}
+
+async function copyText() {
+  const message = document.getElementById('copyResult');
+
+  if (!words.value) {
+    message.textContent = 'Please enter some text first.';
+    return;
+  }
+
+  try {
+    await navigator.clipboard.writeText(words.value);
+    message.textContent = 'Text copied successfully!';
+  } catch (error) {
+    words.focus();
+    words.select();
+    message.textContent = 'Text selected. Use Copy from your browser menu.';
+  }
+}
+
+const quality = document.getElementById('quality');
+
+quality.addEventListener('input', () => {
+  document.getElementById('qualityValue').textContent = quality.value;
 });
-function compressImage(){
-const file=document.getElementById('imageFile').files[0];
-const result=document.getElementById('imageResult');
-const link=document.getElementById('downloadLink');
-if(!file){result.textContent='Please choose an image first.';return;}
-if(!file.type.startsWith('image/')){result.textContent='Please select a valid image.';return;}
-result.textContent='Compressing image...';
-const reader=new FileReader();
-reader.onload=e=>{
-const img=new Image();
-img.onload=()=>{
-const canvas=document.createElement('canvas');
-const max=2000;
-const scale=Math.min(1,max/Math.max(img.width,img.height));
-canvas.width=Math.round(img.width*scale);
-canvas.height=Math.round(img.height*scale);
-const ctx=canvas.getContext('2d');
-ctx.drawImage(img,0,0,canvas.width,canvas.height);
-canvas.toBlob(blob=>{
-if(!blob){result.textContent='Could not compress this image.';return;}
-link.href=URL.createObjectURL(blob);
-link.style.display='inline-block';
-result.textContent='Original: '+(file.size/1024).toFixed(1)+' KB | Compressed: '+(blob.size/1024).toFixed(1)+' KB';
-},'image/jpeg',Number(quality.value)/100);
-};
-img.onerror=()=>result.textContent='Could not read this image.';
-img.src=e.target.result;
-};
-reader.onerror=()=>result.textContent='Could not load this image.';
-reader.readAsDataURL(file);
+
+let currentImageURL = null;
+
+function compressImage() {
+  const file = document.getElementById('imageFile').files[0];
+  const result = document.getElementById('imageResult');
+  const link = document.getElementById('downloadLink');
+
+  link.style.display = 'none';
+  link.removeAttribute('href');
+
+  if (currentImageURL) {
+    URL.revokeObjectURL(currentImageURL);
+    currentImageURL = null;
+  }
+
+  if (!file) {
+    result.textContent = 'Please choose an image first.';
+    return;
+  }
+
+  if (!file.type.startsWith('image/')) {
+    result.textContent = 'Please select a valid image.';
+    return;
+  }
+
+  result.textContent = 'Compressing image...';
+
+  const reader = new FileReader();
+
+  reader.onload = event => {
+    const img = new Image();
+
+    img.onload = () => {
+      const maxDimension = 2000;
+      const scale = Math.min(
+        1,
+        maxDimension / Math.max(img.width, img.height)
+      );
+
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.max(1, Math.round(img.width * scale));
+      canvas.height = Math.max(1, Math.round(img.height * scale));
+
+      const context = canvas.getContext('2d');
+
+      if (!context) {
+        result.textContent = 'Your browser could not process this image.';
+        return;
+      }
+
+      context.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+      canvas.toBlob(blob => {
+        if (!blob) {
+          result.textContent = 'Could not compress this image. Try another file.';
+          return;
+        }
+
+        currentImageURL = URL.createObjectURL(blob);
+        link.href = currentImageURL;
+
+        const originalKB = (file.size / 1024).toFixed(1);
+        const compressedKB = (blob.size / 1024).toFixed(1);
+        const difference = file.size - blob.size;
+
+        link.style.display = 'inline-block';
+
+        if (difference > 0) {
+          const savedPercent = ((difference / file.size) * 100).toFixed(1);
+          result.textContent =
+            'Original: ' + originalKB + ' KB · Compressed: ' +
+            compressedKB + ' KB · Saved ' + savedPercent + '%';
+        } else {
+          result.textContent =
+            'Original: ' + originalKB + ' KB · New image: ' +
+            compressedKB + ' KB. This image did not get smaller; try a lower quality setting.';
+        }
+
+        img.src = '';
+      }, 'image/jpeg', Number(quality.value) / 100);
+    };
+
+    img.onerror = () => {
+      result.textContent = 'Could not read this image. Please try another file.';
+    };
+
+    img.src = event.target.result;
+  };
+
+  reader.onerror = () => {
+    result.textContent = 'Could not load this image. Please try again.';
+  };
+
+  reader.readAsDataURL(file);
 }
 </script>
+
 </body>
 </html>
